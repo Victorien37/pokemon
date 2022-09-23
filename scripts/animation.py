@@ -16,7 +16,7 @@ class AnimateSprite(pygame.sprite.Sprite):
     def __init__(self, name):
         super().__init__()
         #Loading the player's sprite based on (f) its name when it is instantiated
-        self.sprite_sheet = pygame.image.load(f'../sprites/{name}.png')
+        self.sprite_sheet = pygame.image.load(f'../assets/sprites/{name}.png')
         #Index for sprite animation
         self.animation_index = 0
         #Clamping the refresh of sprite animations

@@ -41,7 +41,16 @@ class MapManager:
         self.maps = dict() # "house" -> Map("house", walls, group)
         self.screen = screen
         self.player  = player
-        self.current_map = "bonaugure" #current_map will be dynamic later
+        self.current_map = "bonaugure" #current_map will be dynamic later when save is enable
+        
+        ### REGISTER MAP DOIT ETRE OBLIGATOIREMENT ETRE DECLARER DANS LA CLASSE MAP MANAGER ET NON DANS UN AUTRE FICHIER ###
+        # self.register_map("bonaugure", portals=[
+        #     Portal(from_world="bonaugure", origin_point="enter_my_home", target_world="my_home", teleport_point="spawn_player"),
+        #     Portal(from_world="bonaugure", origin_point="enter_rival_home", target_world="rival_home", teleport_point="spawn"),
+        #     Portal("bonaugure", "enter_route-201", "route-201", "spawn_route-201")
+        # ], npcs=[
+        #     NPC("electro", nb_points=2, dialogs=["Tout le monde part à l'aventure","et devient peu à peu adulte..."])
+        # ])
         
         self.teleport_player("player")
         self.teleport_npcs()
@@ -84,7 +93,7 @@ class MapManager:
     def register_map(self, name, portals=[], npcs=[]):
         """Changing the new map"""
         #Loading the map using the tmx module
-        tmx_data = pytmx.util_pygame.load_pygame(f"../maps/{name}.tmx") #f allows to make the link between text and variables
+        tmx_data = pytmx.util_pygame.load_pygame(f"../assets/maps/{name}.tmx") #f allows to make the link between text and variables
         map_data = pyscroll.data.TiledMapData(tmx_data)
         #The map takes the size of the screen
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
