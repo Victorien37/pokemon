@@ -29,6 +29,7 @@ class Game:
         self.player = Player()
         self.map_manager = MapManager(self.screen, self.player)
         self.dialog_box = DialogBox()
+        self.music_name = MapManager(self.screen, self.player).get_map().name
         
     def handle_input(self):
         """ Animation of the sprite according to pressed keys """
@@ -52,13 +53,46 @@ class Game:
         """ Refresh the map constantly """
         self.map_manager.update()
         
+    def play_music(self):
+        """ Music automation """
+        towns = ["bonaugure", "littorella", "felicite", "charbourg", "floraville", "vestigion", "unionpolis", "bonville", "voilaroc", "verchamps", "joliberges", "celestia", "frimapic", "rivamar"]
+        roads = ["201", "202", "203", "204", "205", "floraville-meadow", "fuego-forge", "wind-turbines"]
+        lakes = ["lake-truth"]
+        shores = ["shore-lake-truth"]
+        areas = ["rest", "fight", "relaxation"]
+        seas = ["220"]
+        forests = ["vestigion-forest"]
+        caves = ["entrance-charbourg", "charbourg-mine"]
+        special = ["pokecenter", "old-castle", "vestigion-galaxy-building"]
+        
+        
+        if self.music_name in towns:
+            pygame.mixer.music.load(f'../assets/sounds/towns/{self.music_name}.mp3')
+        elif self.music_name in roads:
+            pygame.mixer.music.load(f'../assets/sounds/roads/{self.music_name}.mp3')
+        elif self.music_name in lakes:
+            pygame.mixer.music.load(f'../assets/sounds/lakes/{self.music_name}.mp3')
+        elif self.music_name in shores:
+            pygame.mixer.music.load(f'../assets/sounds/shores/{self.music_name}.mp3')
+        elif self.music_name in areas:
+            pygame.mixer.music.load(f'../assets/sounds/areas/{self.music_name}.mp3')
+        elif self.music_name in seas:
+            pygame.mixer.music.load(f'../assets/sounds/seas/{self.music_name}.mp3')
+        elif self.music_name in forests:
+            pygame.mixer.music.load(f'../assets/sounds/forests/{self.music_name}.mp3')
+        elif self.music_name in caves:
+            pygame.mixer.music.load(f'../assets/sounds/caves/{self.music_name}.mp3')
+        elif self.music_name in special:
+            pygame.mixer.music.load(f'../assets/sounds/special/{self.music_name}.mp3')
+        pygame.mixer.music.play(-1, 0.0)
+        
     def run(self):
         """ Running the game """
         clock = pygame.time.Clock()
         
         #Game loop
         running = True
-        print(self.map_manager.get_map().name)
+        self.play_music()
         #As long as we don't close the window, we refresh the page and redraw the slaps
         while running:
             #Save player coordinates to manage collisions with his feet

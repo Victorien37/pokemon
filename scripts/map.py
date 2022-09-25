@@ -81,6 +81,8 @@ class MapManager:
                 else:
                     sprite.speed = 0.5
             if sprite.feet.collidelist(self.get_walls()) > -1:
+                collision = pygame.mixer.Sound('../assets/sounds/achivments/collision.wav')
+                collision.play(1)
                 sprite.move_back()
 
     def teleport_player(self, name):
