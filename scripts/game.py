@@ -10,8 +10,6 @@
 """
 
 #Importing librairies
-from copy import copy
-import this
 import pygame
 import pytmx
 import pyscroll
