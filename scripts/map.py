@@ -143,8 +143,13 @@ class MapManager:
 
     def get_object(self, name):
         """Return the object names of the map"""
+        # Return the spawn point name
         return self.get_map().tmx_data.get_object_by_name(name)
-
+    
+    def get_world_name(self):
+        """Return the world name"""
+        return self.get_map().name
+    
     def teleport_npcs(self):
         """Addition of NPCs on their respective location"""
         for map in self.maps:

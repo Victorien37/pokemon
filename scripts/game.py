@@ -10,6 +10,8 @@
 """
 
 #Importing librairies
+from copy import copy
+import this
 import pygame
 import pytmx
 import pyscroll
@@ -29,7 +31,18 @@ class Game:
         self.player = Player()
         self.map_manager = MapManager(self.screen, self.player)
         self.dialog_box = DialogBox()
-        self.music_name = MapManager(self.screen, self.player).get_map().name
+        self.liste = []
+        # self.music_name = MapManager(self.screen, self.player).get_map().name
+        # Liste des musiques
+        self.towns = ["bonaugure", "littorella", "felicite", "charbourg", "floraville", "vestigion", "unionpolis", "bonville", "voilaroc", "verchamps", "joliberges", "celestia", "frimapic", "rivamar"]
+        self.roads = ["route-201", "202", "203", "204", "205", "floraville-meadow", "fuego-forge", "wind-turbines"]
+        self.lakes = ["lake-truth"]
+        self.shores = ["shore-lake-truth"]
+        self.areas = ["rest", "fight", "relaxation"]
+        self.seas = ["220"]
+        self.forests = ["vestigion-forest"]
+        self.caves = ["entrance-charbourg", "charbourg-mine"]
+        self.special = ["pokecenter", "old-castle", "vestigion-galaxy-building"]
         
     def handle_input(self):
         """ Animation of the sprite according to pressed keys """
@@ -53,38 +66,46 @@ class Game:
         """ Refresh the map constantly """
         self.map_manager.update()
         
+    def new_map(self):
+        """ Return the name of the new_map """
+        this_map = self.map_manager.get_world_name()
+        self.liste.append(this_map)
+        
+        # if len(self.liste) > 1:
+        #     print(self.liste[0] + "--" + self.liste[1])
+        if this_map != self.liste[0]:
+            self.liste[1] = self.liste[0]
+            self.liste[0] = this_map
+            # print("this_map : " + this_map + " old_map : " + self.liste[1])
+            # print(self.liste[0])
+            return self.liste[0]
+        
     def play_music(self):
         """ Music automation """
-        towns = ["bonaugure", "littorella", "felicite", "charbourg", "floraville", "vestigion", "unionpolis", "bonville", "voilaroc", "verchamps", "joliberges", "celestia", "frimapic", "rivamar"]
-        roads = ["201", "202", "203", "204", "205", "floraville-meadow", "fuego-forge", "wind-turbines"]
-        lakes = ["lake-truth"]
-        shores = ["shore-lake-truth"]
-        areas = ["rest", "fight", "relaxation"]
-        seas = ["220"]
-        forests = ["vestigion-forest"]
-        caves = ["entrance-charbourg", "charbourg-mine"]
-        special = ["pokecenter", "old-castle", "vestigion-galaxy-building"]
-        
-        
-        if self.music_name in towns:
-            pygame.mixer.music.load(f'../assets/sounds/towns/{self.music_name}.mp3')
-        elif self.music_name in roads:
-            pygame.mixer.music.load(f'../assets/sounds/roads/{self.music_name}.mp3')
-        elif self.music_name in lakes:
-            pygame.mixer.music.load(f'../assets/sounds/lakes/{self.music_name}.mp3')
-        elif self.music_name in shores:
-            pygame.mixer.music.load(f'../assets/sounds/shores/{self.music_name}.mp3')
-        elif self.music_name in areas:
-            pygame.mixer.music.load(f'../assets/sounds/areas/{self.music_name}.mp3')
-        elif self.music_name in seas:
-            pygame.mixer.music.load(f'../assets/sounds/seas/{self.music_name}.mp3')
-        elif self.music_name in forests:
-            pygame.mixer.music.load(f'../assets/sounds/forests/{self.music_name}.mp3')
-        elif self.music_name in caves:
-            pygame.mixer.music.load(f'../assets/sounds/caves/{self.music_name}.mp3')
-        elif self.music_name in special:
-            pygame.mixer.music.load(f'../assets/sounds/special/{self.music_name}.mp3')
-        pygame.mixer.music.play(-1, 0.0)
+        # If the music name isn't in the good respository
+        try:
+            if self.liste[0] in self.towns:
+                pygame.mixer.music.load(f'../assets/sounds/towns/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.roads:
+                pygame.mixer.music.load(f'../assets/sounds/roads/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.lakes:
+                pygame.mixer.music.load(f'../assets/sounds/lakes/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.shores:
+                pygame.mixer.music.load(f'../assets/sounds/shores/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.areas:
+                pygame.mixer.music.load(f'../assets/sounds/areas/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.seas:
+                pygame.mixer.music.load(f'../assets/sounds/seas/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.forests:
+                pygame.mixer.music.load(f'../assets/sounds/forests/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.caves:
+                pygame.mixer.music.load(f'../assets/sounds/caves/{self.liste[0]}.mp3')
+            elif self.liste[0] in self.special:
+                pygame.mixer.music.load(f'../assets/sounds/special/{self.liste[0]}.mp3')
+            pygame.mixer.music.play(-1, 0.0)
+        except:
+            print(self.liste[0])
+            
         
     def run(self):
         """ Running the game """
@@ -92,9 +113,12 @@ class Game:
         
         #Game loop
         running = True
-        self.play_music()
+        pygame.mixer.music.load('../assets/sounds/towns/bonaugure.mp3') # self.current_map later
+        pygame.mixer.music.play(-1, 0.0)
         #As long as we don't close the window, we refresh the page and redraw the slaps
         while running:
+            if self.new_map() != None:
+                self.play_music()
             #Save player coordinates to manage collisions with his feet
             self.player.save_location()
             #Before updating the elements, I take into account the keys that are pressed
