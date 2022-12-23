@@ -32,6 +32,8 @@ class Game:
         self.liste = []
         # self.music_name = MapManager(self.screen, self.player).get_map().name
         # Liste des musiques
+        # TODO: Essayer de faire un dictionaire au lieu de plusieurs liste ->
+        # TODO: self.maps = { 'towns' => [], roads => [], ... }
         self.towns = ["bonaugure", "littorella", "felicite", "charbourg", "floraville", "vestigion", "unionpolis", "bonville", "voilaroc", "verchamps", "joliberges", "celestia", "frimapic", "rivamar"]
         self.roads = ["route-201", "202", "203", "204", "205", "floraville-meadow", "fuego-forge", "wind-turbines"]
         self.lakes = ["lake-truth"]
